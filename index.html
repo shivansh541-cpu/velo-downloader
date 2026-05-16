@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Velo Downloader - Download Videos Free</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7015DF',
+                        primary2: '#6C09E5',
+                        purple2: '#7B14F8',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        card: '0 4px 4px rgba(0,0,0,0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.ico">
+</head>
+
+<body class="bg-white font-inter min-h-screen" style="max-width:440px; margin:0 auto;">
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  NAVBAR                                          -->
+<!-- ════════════════════════════════════════════════ -->
+<nav class="w-full flex items-center justify-between px-4 py-2 bg-white border-b border-gray-100 sticky top-0 z-50 shadow-card" style="height:39px;">
+    <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded bg-primary2 flex items-center justify-center shadow-card flex-shrink-0">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 1v7M3 5.5l3 3 3-3M1 10h10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <span class="text-black font-normal leading-none" style="font-size:12px; opacity:0.81;">Velo</span>
+        <span class="font-normal leading-none" style="font-size:12px; color:#7015DF;">Downloader</span>
+    </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  BANNER AD                                       -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="w-full flex items-center justify-center bg-gray-200 text-gray-400 text-xs tracking-widest" style="height:36px; margin-left:0; width:329px; margin-left:auto; margin-right:auto; margin-top:0;">
+    Banner ad
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  HERO - TITLE                                    -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="w-full px-5 pt-5 pb-2 text-center">
+    <div class="flex items-center justify-center gap-1 mb-1">
+        <span class="text-black font-normal" style="font-size:14px;">Velo</span>
+        <span style="font-size:14px; color:#7015DF; font-weight:400;">Downloader</span>
+    </div>
+    <p class="text-center leading-relaxed" style="font-size:8px; color:rgba(0,0,0,0.68); max-width:206px; margin:0 auto; line-height:1.6;">
+        Download videos from YouTube, Facebook, Instagram,<br>and any many other websites in MP4, MP3 and more.
+    </p>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  URL INPUT + BUTTON                              -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="px-5 mt-3">
+    <div class="flex items-center rounded-md shadow-card overflow-hidden" style="border:1px solid rgba(0,0,0,0.56); height:30px; border-radius:5px;">
+        <input
+            id="videoUrl"
+            type="url"
+            placeholder="Paste video link here..."
+            class="flex-1 bg-white outline-none px-3 text-black/70 font-inter"
+            style="font-size:9px; height:100%; border:none;"
+        />
+        <button
+            onclick="fetchVideoInfo()"
+            id="downloadBtn"
+            class="flex items-center gap-1 bg-primary hover:bg-primary2 text-white font-normal transition-all duration-200 shadow-card flex-shrink-0"
+            style="height:28px; padding:0 10px; font-size:9px; border-radius:3px; margin:1px;"
+        >
+            <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                <path d="M6 1v7M3 5.5l3 3 3-3M1 10h10" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Downloader
+        </button>
+    </div>
+    <p class="mt-1.5 text-center" style="font-size:7px; color:rgba(0,0,0,0.73); line-height:1.6; max-width:332px; margin-left:auto; margin-right:auto;">
+        By using our service you accept our
+        <a href="pages/terms.html" class="underline hover:text-primary transition-colors">Terms of Use</a>
+        and
+        <a href="pages/privacy.html" class="underline hover:text-primary transition-colors">Privacy Policy</a>.
+    </p>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  LOADING SPINNER                                 -->
+<!-- ════════════════════════════════════════════════ -->
+<div id="loadingSection" class="hidden px-5 py-6">
+    <div class="flex flex-col items-center gap-3">
+        <div class="spinner"></div>
+        <p style="font-size:10px; color:rgba(0,0,0,0.5);">Fetching video info, please wait...</p>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  ERROR MESSAGE                                   -->
+<!-- ════════════════════════════════════════════════ -->
+<div id="errorSection" class="hidden px-5 mt-3">
+    <div class="rounded-lg px-4 py-3 text-center" style="background:#fff0f0; border:1px solid #ffcccc;">
+        <p id="errorMessage" style="font-size:10px; color:#cc0000;"></p>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  DOWNLOAD RESULTS BOX                            -->
+<!-- ════════════════════════════════════════════════ -->
+<section id="resultsSection" class="hidden px-5 mt-4">
+    <div class="rounded-xl bg-white shadow-card results-box" style="border:1px solid rgba(0,0,0,0.3); padding:16px 12px;">
+
+        <!-- Video Thumbnail + Title -->
+        <div class="flex items-center gap-3 mb-4" id="videoMeta">
+            <img id="videoThumb" src="" alt="" class="rounded-md object-cover flex-shrink-0" style="width:60px; height:42px; display:none;">
+            <p id="videoTitle" class="text-black font-medium leading-snug" style="font-size:10px; flex:1;"></p>
+        </div>
+
+        <!-- VIDEO SECTION -->
+        <div id="videoSection" class="mb-4">
+            <div class="flex justify-center mb-3">
+                <span class="text-white font-normal px-8 py-1 rounded-full" style="background:#E8383D; font-size:11px;">Video</span>
+            </div>
+            <div id="videoFormats" class="flex flex-col gap-3 px-1"></div>
+        </div>
+
+        <!-- MUSIC SECTION -->
+        <div id="musicSection" class="hidden">
+            <div class="flex justify-center mb-3 mt-2">
+                <span class="text-white font-normal px-8 py-1 rounded-full" style="background:#E8383D; font-size:11px;">Music</span>
+            </div>
+            <div id="audioFormats" class="flex flex-col gap-3 px-1"></div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  HOW TO DOWNLOAD                                 -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="px-5 mt-6 mb-4">
+    <h2 class="text-center font-bold underline underline-offset-2" style="font-size:10px; color:rgba(0,0,0,1);">How To Download</h2>
+
+    <div class="flex flex-col gap-2 mt-4">
+
+        <!-- Step 1 -->
+        <div class="flex items-start gap-3 bg-white rounded-lg shadow-card px-4 py-3" style="border:1px solid rgba(0,0,0,0.62);">
+            <div class="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold" style="width:9px; height:9px; background:#7B14F8; font-size:6px; min-width:9px; margin-top:2px;">1</div>
+            <div>
+                <p class="font-semibold text-black" style="font-size:8px;">Copy Video Link</p>
+                <p style="font-size:4px; color:rgba(0,0,0,0.7); margin-top:2px; line-height:1.6;">Copy the link of the video you want to download.</p>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex items-start gap-3 bg-white rounded-lg shadow-card px-4 py-3" style="border:1px solid rgba(0,0,0,0.62);">
+            <div class="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold" style="width:9px; height:9px; background:#7B14F8; font-size:6px; min-width:9px; margin-top:2px;">2</div>
+            <div>
+                <p class="font-semibold text-black" style="font-size:8px;">Paste & Click Download</p>
+                <p style="font-size:4px; color:rgba(0,0,0,0.7); margin-top:2px; line-height:1.6;">Paste the link in the box above and click download.</p>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex items-start gap-3 bg-white rounded-lg shadow-card px-4 py-3" style="border:1px solid rgba(0,0,0,0.62);">
+            <div class="flex-shrink-0 rounded-full flex items-center justify-center text-white font-semibold" style="width:9px; height:9px; background:#7B14F8; font-size:6px; min-width:9px; margin-top:2px;">3</div>
+            <div>
+                <p class="font-semibold text-black" style="font-size:8px;">Choose Format & Save</p>
+                <p style="font-size:4px; color:rgba(0,0,0,0.7); margin-top:2px; line-height:1.6;">Select your preferred format and download the file.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  AD SECTION 1                                    -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="px-5 mb-5">
+    <div class="w-full flex items-center justify-center rounded-md bg-gray-200 text-gray-400 text-xs tracking-widest" style="height:136px;">
+        AD
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  SUPPORTED PLATFORMS                             -->
+<!-- ════════════════════════════════════════════════ -->
+<section class="px-5 mb-5">
+    <div class="bg-white rounded-xl px-5 py-4" style="border:1px solid rgba(0,0,0,0.62);">
+        <p class="font-normal mb-3" style="font-size:12px; color:#000;">Supported Platforms</p>
+        <div class="flex items-center gap-3">
+
+            <!-- YouTube -->
+            <div class="platform-icon rounded-full flex items-center justify-center shadow-card flex-shrink-0" style="width:42px; height:42px; background:#FF0000;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M23.5 6.2s-.3-1.9-1.1-2.7c-1-.8-2.2-.8-2.7-.9C16.8 2.4 12 2.4 12 2.4s-4.8 0-7.7.2c-.5 0-1.7.1-2.7.9C.8 4.3.5 6.2.5 6.2S.2 8.4.2 10.6v2.1c0 2.2.3 4.4.3 4.4s.3 1.9 1.1 2.7c1 .8 2.4.8 3 .9C6.6 21 12 21 12 21s4.8 0 7.7-.3c.5 0 1.7-.1 2.7-.9.8-.8 1.1-2.7 1.1-2.7s.3-2.2.3-4.4v-2.1c0-2.2-.3-4.4-.3-4.4zM9.7 15.5V8.4l7.3 3.6-7.3 3.5z"/>
+                </svg>
+            </div>
+
+            <!-- Instagram -->
+            <div class="platform-icon rounded-full flex items-center justify-center shadow-card flex-shrink-0" style="width:42px; height:42px; background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </div>
+
+            <!-- Facebook -->
+            <div class="platform-icon rounded-full flex items-center justify-center shadow-card flex-shrink-0" style="width:42px; height:42px; background:#1877F2;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+            </div>
+
+            <!-- More -->
+            <div class="platform-icon rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-all" style="width:33px; height:33px; border:1px solid rgba(0,0,0,0.82);">
+                <span style="font-size:8px; color:#000; font-weight:400;">More</span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  LOGO IMAGE                                      -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="flex justify-center mb-4">
+    <img src="assets/logo.png" alt="Velo Logo" style="width:233px; height:233px; object-fit:contain;" onerror="this.style.display='none'">
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  AD SECTION 2                                    -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="px-5 mb-6">
+    <div class="w-full flex items-center justify-center rounded-md bg-gray-200 text-gray-400 text-xs tracking-widest" style="height:142px;">
+        AD
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!--  FOOTER                                          -->
+<!-- ════════════════════════════════════════════════ -->
+<footer class="w-full bg-black text-white" style="padding:24px 20px 16px;">
+
+    <div class="flex items-center gap-1 mb-4">
+        <span class="font-normal" style="font-size:15px; color:#C6D104;">Velo</span>
+        <span class="font-normal" style="font-size:15px; color:#fff;"> Downloader</span>
+    </div>
+
+    <div class="flex flex-col gap-3 mb-4">
+        <a href="#" class="text-white hover:text-yellow-300 transition-colors" style="font-size:12px;">Download Video</a>
+        <a href="#" class="text-white hover:text-yellow-300 transition-colors" style="font-size:12px;">Supported Platforms</a>
+    </div>
+
+    <div class="w-full mb-4" style="border-top:1px solid rgba(255,255,255,1);"></div>
+
+    <p class="text-center" style="font-size:15px; color:rgba(255,255,255,1);">
+        Velo Downloader All rights reserved © 2026
+    </p>
+
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
