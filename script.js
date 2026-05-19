@@ -1,7 +1,7 @@
 ﻿// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  CONFIG - Backend URL
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-const BACKEND_URL = "http://velo-downloader.onrender.com";
+const BACKEND_URL = "https://velo-downloader.onrender.com";
 // Jab deploy karo tab yeh change karo:
 // const BACKEND_URL = "https://your-app.onrender.com";
 
