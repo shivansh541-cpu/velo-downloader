@@ -12,7 +12,7 @@ from utils.file_cleaner import clean_old_files
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=os.getenv("ALLOWED_ORIGINS", "*"))
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=False)
 
 DOWNLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "downloads")
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
