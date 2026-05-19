@@ -1,7 +1,7 @@
 // ══════════════════════════════════════════════════
 //  CONFIG - Backend URL
 // ══════════════════════════════════════════════════
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "https://velo-downloader.onrender.com";
 // Jab deploy karo tab yeh change karo:
 // const BACKEND_URL = "https://your-app.onrender.com";
 
