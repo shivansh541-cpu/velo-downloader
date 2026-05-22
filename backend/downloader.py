@@ -85,6 +85,7 @@ def download_video(url, format_type, quality, download_folder):
         if format_type == "mp3":
             output_template = os.path.join(download_folder, f"{unique_id}.%(ext)s")
             ydl_opts = {
+                'cookiefile': 'cookies.txt',
                 "format": "bestaudio/best",
                 "outtmpl": output_template,
                 "quiet": True,
